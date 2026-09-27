@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { PairingData, PairingSlider } from "./PairingSlider";
 import { ShieldCheckIcon } from "./Icons";
+import { EmptyState } from "./EmptyState";
 
 interface SuggestedPairingsProps {
   projectId?: string;
@@ -14,6 +15,7 @@ interface SuggestedPairingsProps {
   onStatusUpdate: (pairingId: string, status: "confirmed" | "rejected") => Promise<void>;
   isGenerating?: boolean;
   onGenerateClick?: () => void;
+  onGenerateStoryFromPair?: (pairing: PairingData) => void;
 }
 
 export function SuggestedPairings({
@@ -21,6 +23,7 @@ export function SuggestedPairings({
   onStatusUpdate,
   isGenerating = false,
   onGenerateClick,
+  onGenerateStoryFromPair,
 }: SuggestedPairingsProps) {
   const [activeSliderPairing, setActiveSliderPairing] = useState<PairingData | null>(null);
   const [activeTab, setActiveTab] = useState<"suggested" | "confirmed">("suggested");
@@ -149,28 +152,27 @@ export function SuggestedPairings({
 
       {/* Suggested or Confirmed Cards Grid */}
       {displayedList.length === 0 ? (
-        <div className="p-8 rounded-2xl bg-ink-soft/50 border border-mist/15 text-center">
-          <p className="font-display text-lg text-bone">
-            {activeTab === "suggested"
+        <EmptyState
+          variant="pairings"
+          title={
+            activeTab === "suggested"
               ? "No pending pair suggestions"
-              : "No confirmed before/after pairs yet"}
-          </p>
-          <p className="font-sans text-xs text-mist mt-1 max-w-md mx-auto">
-            {activeTab === "suggested"
-              ? "Upload field photos across different phases or tap 'Auto-Pair Clusters' to let Gemini scan your evidence."
-              : "Review suggested pairs above and tap 'Confirm' to approve them for your impact proof."}
-          </p>
-          {activeTab === "suggested" && onGenerateClick && (
-            <button
-              type="button"
-              disabled={isGenerating}
-              onClick={onGenerateClick}
-              className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-moss hover:bg-moss-bright text-bone text-xs font-mono font-medium transition-colors"
-            >
-              Scan &amp; Pair Evidence Now
-            </button>
-          )}
-        </div>
+              : "No confirmed before/after pairs yet"
+          }
+          description={
+            activeTab === "suggested"
+              ? "Upload field photos across different phases or trigger Gemini to scan spatial and temporal clusters for before/after alignments."
+              : "Review suggested pairs above and tap 'Confirm' to lock them into your project's permanent chain of custody."
+          }
+          actionText={
+            activeTab === "suggested" && onGenerateClick
+              ? isGenerating
+                ? "Analyzing Evidence..."
+                : "Auto-Pair Clusters"
+              : undefined
+          }
+          onAction={activeTab === "suggested" ? onGenerateClick : undefined}
+        />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <AnimatePresence mode="popLayout">
@@ -313,14 +315,26 @@ export function SuggestedPairings({
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-mono text-moss-bright">
+                        {onGenerateStoryFromPair && (
+                          <button
+                            type="button"
+                            onClick={() => onGenerateStoryFromPair(pairing)}
+                            className="px-2.5 py-1 rounded-lg bg-clay/10 hover:bg-clay/20 border border-clay/30 text-clay hover:text-bone text-[11px] font-mono transition-colors flex items-center gap-1.5 shadow-sm"
+                          >
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="m12 2 2.4 7.4 7.6 2.6-7.6 2.6L12 22l-2.4-7.4L2 12l7.6-2.6L12 2Z" />
+                            </svg>
+                            <span>Generate Story</span>
+                          </button>
+                        )}
+                        <span className="text-[11px] font-mono text-moss-bright hidden sm:inline">
                           Active in Proof Chain
                         </span>
                         <button
                           type="button"
                           disabled={isWorking}
                           onClick={() => handleAction(pairing._id, "rejected")}
-                          className="px-2.5 py-1 text-[11px] font-mono text-mist hover:text-clay transition-colors"
+                          className="px-2 py-1 text-[11px] font-mono text-mist hover:text-clay transition-colors"
                         >
                           Remove
                         </button>

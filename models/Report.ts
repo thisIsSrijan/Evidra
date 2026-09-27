@@ -3,10 +3,12 @@ import mongoose, { Schema, Document, Model, Types } from "mongoose";
 export interface IReport extends Document {
   projectId: Types.ObjectId;
   title: string;
+  subtitle?: string;
   narrative: string;
   assetIds: Types.ObjectId[];
   coverAssetId?: Types.ObjectId;
-  shareSlug?: string;
+  coverUrl?: string;
+  shareSlug: string;
   createdAt: Date;
 }
 
@@ -23,6 +25,10 @@ const ReportSchema = new Schema<IReport>(
       required: [true, "Report title is required"],
       trim: true,
     },
+    subtitle: {
+      type: String,
+      trim: true,
+    },
     narrative: {
       type: String,
       required: [true, "Narrative is required"],
@@ -37,10 +43,14 @@ const ReportSchema = new Schema<IReport>(
       type: Schema.Types.ObjectId,
       ref: "Asset",
     },
+    coverUrl: {
+      type: String,
+      trim: true,
+    },
     shareSlug: {
       type: String,
       unique: true,
-      sparse: true,
+      required: true,
       trim: true,
     },
     createdAt: {

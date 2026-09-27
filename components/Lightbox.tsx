@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { ShieldCheckIcon, SatellitePinIcon, CloseIcon } from "@/components/Icons";
@@ -257,10 +258,17 @@ export function Lightbox({ assets, initialIndex, onClose }: LightboxProps) {
               </span>
             )}
             {asset.provenanceHash && (
-              <span className="inline-flex items-center gap-1">
-                <ShieldCheckIcon size={10} className="text-moss-bright" />
-                {asset.provenanceHash.slice(0, 12)}…
-              </span>
+              <Link
+                href={`/verify/${asset._id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View full Chain of Custody record"
+                className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-clay/10 hover:bg-clay/20 border border-clay/30 text-clay hover:text-bone text-[10px] font-mono transition-colors"
+              >
+                <ShieldCheckIcon size={11} className="text-clay" />
+                <span>Verified #{asset.provenanceHash.slice(0, 8)}…</span>
+                <span className="text-[9px]">↗</span>
+              </Link>
             )}
             <span className="text-mist/50">{asset.resourceType}</span>
           </div>

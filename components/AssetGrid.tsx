@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { ShieldCheckIcon } from "@/components/Icons";
 import { Lightbox, LightboxAsset } from "@/components/Lightbox";
+import { EmptyState } from "@/components/EmptyState";
 
 export interface AssetItem {
   _id: string;
@@ -26,6 +28,9 @@ export interface AssetItem {
 interface AssetGridProps {
   assets: AssetItem[];
   filterPhase?: string;
+  selectable?: boolean;
+  selectedIds?: string[];
+  onToggleSelect?: (id: string) => void;
 }
 
 const PHASE_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
@@ -42,10 +47,14 @@ function AssetCard({
   asset,
   index,
   onClick,
+  selectable = false,
+  isSelected = false,
 }: {
   asset: AssetItem;
   index: number;
   onClick: () => void;
+  selectable?: boolean;
+  isSelected?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
@@ -68,9 +77,11 @@ function AssetCard({
         ease: BRAND_EASING,
       }}
       onClick={onClick}
-      className={`group relative rounded-xl overflow-hidden cursor-pointer bg-ink-soft border border-mist/10 hover:border-moss/40 transition-colors ${
-        isTall ? "row-span-2" : ""
-      }`}
+      className={`group relative rounded-xl overflow-hidden cursor-pointer bg-ink-soft border transition-all ${
+        isSelected
+          ? "border-clay ring-2 ring-clay/40"
+          : "border-mist/10 hover:border-moss/40"
+      } ${isTall ? "row-span-2" : ""}`}
     >
       {/* Thumbnail */}
       {asset.resourceType === "image" ? (
@@ -105,29 +116,58 @@ function AssetCard({
         </div>
       )}
 
-      {/* Phase badge */}
-      <div className="absolute top-2 left-2">
-        <span
-          className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-mono backdrop-blur-sm ${
-            PHASE_COLORS[asset.phase]?.bg || "bg-mist/10"
-          } ${PHASE_COLORS[asset.phase]?.text || "text-mist"}`}
-        >
-          <span
-            className={`w-1 h-1 rounded-full ${
-              PHASE_COLORS[asset.phase]?.dot || "bg-mist"
+      {/* Selection checkbox or phase badge */}
+      {selectable ? (
+        <div className="absolute top-2 left-2 z-10">
+          <div
+            className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${
+              isSelected
+                ? "bg-clay border-clay text-ink shadow-md"
+                : "bg-ink/80 border-mist/40 text-transparent hover:border-mist"
             }`}
-          />
-          {asset.phase}
-        </span>
-      </div>
-
-      {/* Provenance indicator */}
-      {asset.provenanceHash && (
-        <div className="absolute top-2 right-2">
-          <div className="w-5 h-5 rounded-md bg-ink/60 backdrop-blur-sm flex items-center justify-center">
-            <ShieldCheckIcon size={12} className="text-moss-bright" />
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
           </div>
         </div>
+      ) : (
+        <div className="absolute top-2 left-2">
+          <span
+            className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-mono backdrop-blur-sm ${
+              PHASE_COLORS[asset.phase]?.bg || "bg-mist/10"
+            } ${PHASE_COLORS[asset.phase]?.text || "text-mist"}`}
+          >
+            <span
+              className={`w-1 h-1 rounded-full ${
+                PHASE_COLORS[asset.phase]?.dot || "bg-mist"
+              }`}
+            />
+            {asset.phase}
+          </span>
+        </div>
+      )}
+
+      {/* Provenance verified deep-link badge */}
+      {asset.provenanceHash && (
+        <Link
+          href={`/verify/${asset._id}`}
+          onClick={(e) => e.stopPropagation()}
+          title="Verify Chain of Custody"
+          className="absolute top-2 right-2 z-10 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-ink/80 hover:bg-clay/20 border border-clay/30 text-[9px] font-mono text-clay backdrop-blur-sm transition-colors group/badge"
+        >
+          <ShieldCheckIcon size={10} className="text-clay" />
+          <span>Verified</span>
+        </Link>
       )}
 
       {/* Match reason chip */}
@@ -181,7 +221,13 @@ function AssetCard({
   );
 }
 
-export function AssetGrid({ assets, filterPhase }: AssetGridProps) {
+export function AssetGrid({
+  assets,
+  filterPhase,
+  selectable = false,
+  selectedIds = [],
+  onToggleSelect,
+}: AssetGridProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filteredAssets =
@@ -194,13 +240,19 @@ export function AssetGrid({ assets, filterPhase }: AssetGridProps) {
 
   if (filteredAssets.length === 0) {
     return (
-      <div className="py-12 px-6 rounded-2xl bg-ink-soft border border-mist/10 text-center">
-        <p className="font-sans text-mist text-xs">
-          {filterPhase && filterPhase !== "all"
-            ? `No "${filterPhase}" assets uploaded yet.`
-            : "No media uploaded yet. Use the upload zone above to ingest field media."}
-        </p>
-      </div>
+      <EmptyState
+        variant="assets"
+        title={
+          filterPhase && filterPhase !== "all"
+            ? `No "${filterPhase}" assets cataloged`
+            : "No field media ingested yet"
+        }
+        description={
+          filterPhase && filterPhase !== "all"
+            ? `No assets have been categorized under the "${filterPhase}" phase. Select another phase filter or upload new evidence.`
+            : "Upload geotagged field photos or video footage to initiate Cloudinary AI analysis, SHA-256 provenance sealing, and temporal clustering."
+        }
+      />
     );
   }
 
@@ -229,14 +281,25 @@ export function AssetGrid({ assets, filterPhase }: AssetGridProps) {
 
       {/* CSS Grid Masonry — 2 cols mobile, 3 sm, 4 md+ */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 auto-rows-[180px] sm:auto-rows-[200px] md:auto-rows-[220px]">
-        {filteredAssets.map((asset, index) => (
-          <AssetCard
-            key={asset._id}
-            asset={asset}
-            index={index}
-            onClick={() => setLightboxIndex(index)}
-          />
-        ))}
+        {filteredAssets.map((asset, index) => {
+          const isSelected = selectedIds.includes(asset._id);
+          return (
+            <AssetCard
+              key={asset._id}
+              asset={asset}
+              index={index}
+              selectable={selectable}
+              isSelected={isSelected}
+              onClick={() => {
+                if (selectable && onToggleSelect) {
+                  onToggleSelect(asset._id);
+                } else {
+                  setLightboxIndex(index);
+                }
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* Lightbox */}

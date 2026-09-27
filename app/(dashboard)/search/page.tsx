@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { AssetGrid, AssetItem } from "@/components/AssetGrid";
 import { SearchIcon, CloseIcon, ProjectsIcon } from "@/components/Icons";
+import { EmptyState } from "@/components/EmptyState";
 
 interface ProjectItem {
   _id: string;
@@ -350,24 +351,11 @@ export default function SearchPage() {
 
       {/* Empty search state */}
       {!isSearching && results === null && !isLoading && selectedProject && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="py-16 text-center"
-        >
-          <div className="w-16 h-16 rounded-2xl bg-ink-soft border border-mist/15 flex items-center justify-center text-mist mx-auto mb-4">
-            <SearchIcon size={32} />
-          </div>
-          <h3 className="font-display text-xl text-bone mb-2">
-            Ready to search
-          </h3>
-          <p className="font-sans text-mist text-xs max-w-md mx-auto leading-relaxed">
-            Type a natural language query to find field assets. Try descriptions
-            like &quot;aerial view of reforestation progress&quot; or &quot;water
-            samples from the eastern plot in June&quot;.
-          </p>
-        </motion.div>
+        <EmptyState
+          variant="search"
+          title="Ready to search evidence"
+          description="Type a natural language query like 'riparian tree canopy expansion' or 'soil moisture monitoring'. Gemini converts plain English into structured filters against AI tags, captions, timestamps, and coordinates."
+        />
       )}
     </div>
   );
