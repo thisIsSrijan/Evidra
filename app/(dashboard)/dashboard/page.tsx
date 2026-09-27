@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
-import { PlusIcon, SatellitePinIcon, ShieldCheckIcon, ProjectsIcon } from "@/components/Icons";
+import { PlusIcon, SatellitePinIcon, ShieldCheckIcon } from "@/components/Icons";
 import { NewProjectModal } from "@/components/NewProjectModal";
+import { EmptyState } from "@/components/EmptyState";
 
 interface ProjectItem {
   _id: string;
@@ -107,26 +108,14 @@ export default function DashboardPage() {
           ))}
         </div>
       ) : projects.length === 0 ? (
-        /* Empty State */
-        <div className="py-20 px-6 rounded-2xl bg-ink-soft border border-mist/15 text-center flex flex-col items-center justify-center">
-          <div className="w-12 h-12 rounded-xl bg-ink border border-mist/20 flex items-center justify-center text-mist mb-4">
-            <ProjectsIcon size={24} />
-          </div>
-          <h3 className="font-display text-xl text-bone mb-1">
-            No projects registered yet
-          </h3>
-          <p className="font-sans text-mist text-xs max-w-sm mb-6 leading-relaxed">
-            Create your first conservation project to start ingesting field media, clustering pairs, and generating impact reports.
-          </p>
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-moss hover:bg-moss-bright text-bone font-sans text-xs font-medium tracking-wide transition-colors"
-          >
-            <PlusIcon size={14} />
-            <span>Register First Project</span>
-          </button>
-        </div>
+        <EmptyState
+          variant="projects"
+          title="No conservation projects registered"
+          description="Create your first project boundary to begin ingesting verified field media, tracking environmental restoration, and assembling cryptographic proof."
+          actionText="Register First Project"
+          actionIcon={<PlusIcon size={14} />}
+          onAction={() => setIsModalOpen(true)}
+        />
       ) : (
         /* Projects Card Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
