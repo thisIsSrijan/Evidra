@@ -7,6 +7,7 @@ export interface IPairing extends Document {
   beforeAssetId: Types.ObjectId;
   afterAssetId: Types.ObjectId;
   confidence?: number;
+  reasoning?: string;
   status: PairingStatus;
   createdAt: Date;
 }
@@ -35,6 +36,10 @@ const PairingSchema = new Schema<IPairing>(
       type: Number,
       min: 0,
       max: 1,
+    },
+    reasoning: {
+      type: String,
+      trim: true,
     },
     status: {
       type: String,
