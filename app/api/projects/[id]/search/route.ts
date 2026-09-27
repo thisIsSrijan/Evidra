@@ -82,7 +82,7 @@ export async function POST(
     }));
 
     // Ask Gemini to interpret the natural-language query
-    const model = getGeminiModel("gemini-2.0-flash");
+    const model = getGeminiModel("gemini-flash-latest");
 
     const systemPrompt = `You are a search engine for a conservation project's field media assets. 
 Given a natural-language query from a user and a list of assets with their metadata, 
