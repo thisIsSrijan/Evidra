@@ -142,7 +142,7 @@ export async function POST(
           geo: a.geo ? `${a.geo.lat}, ${a.geo.lng}` : null,
         }));
 
-      const systemPrompt = `You are an expert environmental and conservation media intelligence engine for Evidra / GroundTruth.
+      const systemPrompt = `You are an expert environmental and conservation media intelligence engine for Evidra.
 Your objective is to examine a cluster of media evidence from conservation project "${project.name}" and identify true "Before → After" pairs.
 
 RULES FOR PAIRING:

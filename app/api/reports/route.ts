@@ -28,27 +28,34 @@ export async function GET() {
       ownerId: new Types.ObjectId(userId),
     });
     const projectIds = userProjects.map((p) => p._id);
+    const projectIdStrings = userProjects.map((p) => p._id.toString());
+    const projectIdsQuery = [...projectIds, ...projectIdStrings];
+    const projectMap = new Map(userProjects.map((p) => [p._id.toString(), p]));
 
     const reports = await Report.find({
-      projectId: { $in: projectIds },
+      projectId: { $in: projectIdsQuery },
     })
       .sort({ createdAt: -1 })
       .populate<{ projectId: IProject }>("projectId");
 
     return NextResponse.json({
       success: true,
-      reports: reports.map((r) => ({
-        _id: r._id.toString(),
-        title: r.title,
-        subtitle: r.subtitle,
-        narrative: r.narrative,
-        coverUrl: r.coverUrl,
-        shareSlug: r.shareSlug,
-        createdAt: r.createdAt,
-        projectName: r.projectId?.name || "Project",
-        projectLocation: r.projectId?.location || null,
-        assetCount: r.assetIds?.length || 0,
-      })),
+      reports: reports.map((r) => {
+        const projIdStr = r.projectId?._id ? r.projectId._id.toString() : r.projectId?.toString();
+        const matchedProj = (r.projectId && (r.projectId as IProject).name) ? (r.projectId as IProject) : projectMap.get(projIdStr);
+        return {
+          _id: r._id.toString(),
+          title: r.title,
+          subtitle: r.subtitle,
+          narrative: r.narrative,
+          coverUrl: r.coverUrl,
+          shareSlug: r.shareSlug,
+          createdAt: r.createdAt,
+          projectName: matchedProj?.name || "Project",
+          projectLocation: matchedProj?.location || null,
+          assetCount: r.assetIds?.length || 0,
+        };
+      }),
     });
   } catch (error) {
     console.error("GET /api/reports error:", error);

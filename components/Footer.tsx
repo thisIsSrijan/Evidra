@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
@@ -8,10 +9,8 @@ export function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
         {/* Left Column: Brand and brief summary */}
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-display text-xl text-bone font-semibold">
-              GroundTruth
-            </span>
+          <div className="flex items-center gap-3 mb-2">
+            <Logo size={26} asLink href="/" hideWordmarkOnMobile={false} />
             <span className="text-xs text-mist/60 uppercase tracking-widest font-mono">
               v1.0
             </span>
@@ -30,7 +29,7 @@ export function Footer() {
             Cloudinary Track: AI-Powered Impact &amp; Sustainability Media Platform
           </span>
           <span className="text-mist/50 text-[11px] mt-2 font-mono">
-            Evidra Engineering • All rights reserved
+            by HouseOfStellar • All rights reserved
           </span>
         </div>
       </div>

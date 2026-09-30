@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { ShieldCheckIcon } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -45,14 +46,9 @@ export default function LoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         {/* Brand header */}
         <div className="text-left mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-            <div className="w-8 h-8 rounded-lg bg-moss/30 border border-moss-bright/40 flex items-center justify-center text-moss-bright">
-              <span className="font-display font-bold text-base leading-none">E</span>
-            </div>
-            <span className="font-display text-xl text-bone tracking-tight font-semibold">
-              GroundTruth
-            </span>
-          </Link>
+          <div className="mb-4">
+            <Logo size={32} asLink href="/" hideWordmarkOnMobile={false} />
+          </div>
 
           <h1 className="font-display text-3xl sm:text-4xl text-bone font-normal tracking-tight">
             Sign in to your console
@@ -131,12 +127,12 @@ export default function LoginPage() {
 
           {/* Bottom link */}
           <div className="mt-8 pt-6 border-t border-mist/10 flex items-center justify-between text-xs font-sans text-mist">
-            <span>New to GroundTruth?</span>
+            <span>New here?</span>
             <Link
               href="/signup"
               className="text-moss-bright hover:underline font-medium"
             >
-              Register your organization →
+              Create an account →
             </Link>
           </div>
         </motion.div>

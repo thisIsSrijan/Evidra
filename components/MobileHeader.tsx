@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { LogoutIcon } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 interface MobileHeaderProps {
   displayName: string;
@@ -11,15 +11,8 @@ interface MobileHeaderProps {
 
 export function MobileHeader({ displayName }: MobileHeaderProps) {
   return (
-    <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 h-14 bg-ink-soft/90 backdrop-blur-md border-b border-mist/15">
-      <Link href="/dashboard" className="flex items-center gap-2">
-        <div className="w-6 h-6 rounded bg-moss/30 border border-moss-bright/40 flex items-center justify-center text-moss-bright font-bold text-xs">
-          E
-        </div>
-        <span className="font-display font-medium text-sm text-bone">
-          GroundTruth
-        </span>
-      </Link>
+    <header className="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 h-14 bg-ink-soft/90 backdrop-blur-md border-b border-mist/15 select-none">
+      <Logo size={24} asLink href="/dashboard" hideWordmarkOnMobile={false} wordmarkClassName="font-display font-semibold text-base text-bone lowercase tracking-tight" />
 
       <div className="flex items-center gap-2.5">
         <span className="block text-[11px] font-sans font-medium text-bone truncate max-w-[130px]">

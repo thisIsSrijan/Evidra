@@ -2,12 +2,17 @@
 
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { MagneticButton } from "./MagneticButton";
 import { ArrowDownIcon, ShieldCheckIcon } from "./Icons";
 import { BRAND_EASING } from "@/lib/motion";
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+  const primaryCtaHref = isAuthenticated ? "/dashboard" : "/signup";
+  const primaryCtaLabel = isAuthenticated ? "Go to Dashboard" : "Start a project";
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -65,7 +70,7 @@ export function Hero() {
             variants={itemVariants}
             className="font-sans text-mist text-lg md:text-xl lg:text-2xl font-light leading-relaxed max-w-3xl mb-10"
           >
-            GroundTruth turns unstructured conservation photos into cryptographic provenance, auto-paired timelines, and donor-ready impact intelligence.
+            Evidra turns unstructured conservation photos into cryptographic provenance, auto-paired timelines, and donor-ready impact intelligence.
           </motion.p>
 
           {/* CTA row */}
@@ -73,8 +78,8 @@ export function Hero() {
             variants={itemVariants}
             className="flex flex-wrap items-center gap-4 pt-2"
           >
-            <MagneticButton variant="primary" href="#demo">
-              Start a project
+            <MagneticButton variant="primary" href={primaryCtaHref}>
+              {primaryCtaLabel}
             </MagneticButton>
 
             <MagneticButton variant="outline" href="#pillars">

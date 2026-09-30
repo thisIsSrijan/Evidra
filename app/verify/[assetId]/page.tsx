@@ -8,8 +8,8 @@ import {
   ShieldCheckIcon,
   FingerprintIcon,
   SatellitePinIcon,
-  LeafIcon,
 } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 interface VerificationData {
   _id: string;
@@ -113,8 +113,9 @@ export default function VerifyAssetPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-ink text-bone font-sans flex items-center justify-center p-6">
-        <div className="max-w-md w-full space-y-4 text-center">
-          <div className="w-10 h-10 mx-auto rounded-full border-2 border-mist/20 border-t-clay animate-spin" />
+        <div className="max-w-md w-full space-y-5 text-center flex flex-col items-center">
+          <Logo size={36} hideWordmarkOnMobile={false} />
+          <div className="w-8 h-8 rounded-full border-2 border-mist/20 border-t-clay animate-spin" />
           <p className="font-mono text-xs text-mist tracking-wider uppercase">
             Querying Provenance Chain &amp; Computing SHA-256 Fingerprint…
           </p>
@@ -154,17 +155,7 @@ export default function VerifyAssetPage() {
       <header className="border-b border-mist/10 bg-ink/80 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="flex items-center gap-2 group transition-opacity hover:opacity-80"
-            >
-              <div className="w-7 h-7 rounded-lg bg-moss/20 border border-moss/40 flex items-center justify-center text-moss-bright">
-                <LeafIcon size={16} />
-              </div>
-              <span className="font-display text-lg tracking-tight text-bone">
-                Evidra
-              </span>
-            </Link>
+            <Logo size={28} asLink href="/" hideWordmarkOnMobile={false} />
             <span className="text-mist/40 text-xs">/</span>
             <span className="font-mono text-xs text-mist uppercase tracking-widest">
               Provenance Chain Registry

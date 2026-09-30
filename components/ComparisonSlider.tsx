@@ -2,8 +2,9 @@
 
 import React, { useRef, useState, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useMotionValue, useReducedMotion } from "framer-motion";
-import { SlidersIcon, ShieldCheckIcon } from "./Icons";
+import { SlidersIcon, ShieldCheckIcon, ReportsIcon } from "./Icons";
 import { BRAND_EASING } from "@/lib/motion";
 
 interface ComparisonSliderProps {
@@ -204,6 +205,35 @@ export function ComparisonSlider({
         <p className="text-center font-sans text-xs text-mist/70 mt-4">
           Click or drag across the image to explore the before &amp; after transformation
         </p>
+
+        {/* Live Sample Report Callout for Judges & Visitors */}
+        <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-ink-soft border border-mist/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-moss/20 border border-moss/40 flex items-center justify-center text-moss-bright shrink-0">
+              <ReportsIcon size={20} />
+            </div>
+            <div>
+              <span className="block text-[10px] uppercase font-mono tracking-widest text-clay font-medium">
+                Live Verification Sample
+              </span>
+              <h4 className="font-display text-base text-bone font-medium">
+                Tsavo Watershed Basin #04 — Donor Briefing
+              </h4>
+              <p className="text-xs text-mist font-sans mt-0.5">
+                Inspect an unaltered, tamper-evident donor impact report generated from this restoration evidence.
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/reports/riparian-corridor-recovery-and-s-b5d2e2"
+            target="_blank"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-moss hover:bg-moss-bright text-bone text-xs font-mono font-medium transition-colors shadow-sm self-start sm:self-auto shrink-0 group"
+          >
+            <span>View a sample report</span>
+            <span className="group-hover:translate-x-0.5 transition-transform" aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

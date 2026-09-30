@@ -71,7 +71,7 @@
   --color-moss-bright: #6B8F6E;
   --color-clay: #D98E4A;
   --color-mist: #9AA79D;
-  --ease-groundtruth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-evidra: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {

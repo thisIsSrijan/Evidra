@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 /**
- * Standard provenance hashing for Evidra / GroundTruth assets.
+ * Standard provenance hashing for Evidra assets.
  * Fingerprints Cloudinary public_id + version + timestamp using SHA-256.
  */
 export function computeCanonicalProvenanceHash(
