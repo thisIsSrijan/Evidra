@@ -46,6 +46,7 @@ export function ComparisonSlider({
   );
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault(); // Prevent browser image drag & text selection
     setIsDragging(true);
     updatePosition(e.clientX);
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -53,6 +54,7 @@ export function ComparisonSlider({
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging) return;
+    e.preventDefault();
     updatePosition(e.clientX);
   };
 
@@ -64,6 +66,18 @@ export function ComparisonSlider({
       // Ignored if capture already lost
     }
   };
+
+  const handlePointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      // Ignored
+    }
+  };
+
+  // Prevent native browser image/element drag
+  const preventDrag = (e: React.DragEvent) => e.preventDefault();
 
   // Keyboard navigation for accessibility
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -124,8 +138,11 @@ export function ComparisonSlider({
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
             onKeyDown={handleKeyDown}
+            onDragStart={preventDrag}
             className="relative w-full aspect-[16/10] sm:aspect-[16/9] cursor-ew-resize overflow-hidden touch-none focus:outline-none focus:ring-2 focus:ring-moss-bright/50"
+            style={{ userSelect: "none", WebkitUserSelect: "none" }}
           >
             {/* 1. Underlying Image: AFTER (Restored forest) */}
             <div className="absolute inset-0 w-full h-full">
@@ -134,8 +151,10 @@ export function ComparisonSlider({
                 alt="After restoration - thriving green forest canopy"
                 fill
                 priority
+                draggable={false}
                 sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-cover"
+                className="object-cover pointer-events-none"
+                onDragStart={preventDrag}
               />
               {/* After Info Overlay */}
               <div className="absolute bottom-4 right-4 z-10 px-3.5 py-2 rounded-lg bg-ink/80 backdrop-blur-md border border-moss/40 text-right pointer-events-none">
@@ -161,8 +180,10 @@ export function ComparisonSlider({
                 alt="Before restoration - degraded barren land"
                 fill
                 priority
+                draggable={false}
                 sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-cover"
+                className="object-cover pointer-events-none"
+                onDragStart={preventDrag}
               />
               {/* Before Info Overlay */}
               <div className="absolute bottom-4 left-4 z-10 px-3.5 py-2 rounded-lg bg-ink/80 backdrop-blur-md border border-clay/40 text-left pointer-events-none">
