@@ -3,7 +3,7 @@
 
 ---
 
-### Project Pitch
+### Introduction
 
 Evidra transforms unstructured, skeptical field photos and videos from grassroots environmental initiatives into irrefutable, donor-ready proof. By unifying a **Cryptographic Provenance Chain** (SHA-256 custody fingerprints, EXIF temporal stamps, and Cloudinary vault immutability), an autonomous **Auto-Pairing Engine** (Gemini multimodal spatial-temporal clustering that uncovers true Before/After ecological pairs), and a **One-Click Impact Story Generator** (synthesizing factual, non-hyperbolic narratives paired with dynamically transformed Cloudinary composite visual covers), Evidra bridges the trust gap between grassroots conservationists and global climate capital—turning folders of raw imagery into verifiable institutional proof.
 
