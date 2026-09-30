@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { ShieldCheckIcon } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -45,14 +46,9 @@ export default function LoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         {/* Brand header */}
         <div className="text-left mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-            <div className="w-8 h-8 rounded-lg bg-moss/30 border border-moss-bright/40 flex items-center justify-center text-moss-bright">
-              <span className="font-display font-bold text-base leading-none">E</span>
-            </div>
-            <span className="font-display text-xl text-bone tracking-tight font-semibold">
-              GroundTruth
-            </span>
-          </Link>
+          <div className="mb-4">
+            <Logo size={32} asLink href="/" hideWordmarkOnMobile={false} />
+          </div>
 
           <h1 className="font-display text-3xl sm:text-4xl text-bone font-normal tracking-tight">
             Sign in to your console
@@ -75,6 +71,36 @@ export default function LoginPage() {
               <div className="flex-1 font-sans">{error}</div>
             </div>
           )}
+
+          {/* Judge & Demo Credentials Callout */}
+          <div className="mb-6 p-4 rounded-xl bg-ink border border-moss/30 shadow-inner">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-moss-bright font-medium flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-clay animate-pulse" />
+                Judge &amp; Demo Credentials
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail("wangari@greenbelt.org");
+                  setPassword("password123");
+                }}
+                className="text-[11px] font-mono text-clay hover:underline focus:outline-none cursor-pointer"
+              >
+                Auto-fill ⚡
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+              <div className="p-2 rounded bg-ink-soft border border-mist/10 text-mist">
+                <span className="text-mist/60 block text-[10px] uppercase">Email</span>
+                <span className="text-bone select-all font-medium">wangari@greenbelt.org</span>
+              </div>
+              <div className="p-2 rounded bg-ink-soft border border-mist/10 text-mist">
+                <span className="text-mist/60 block text-[10px] uppercase">Password</span>
+                <span className="text-bone select-all font-medium">password123</span>
+              </div>
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -131,12 +157,12 @@ export default function LoginPage() {
 
           {/* Bottom link */}
           <div className="mt-8 pt-6 border-t border-mist/10 flex items-center justify-between text-xs font-sans text-mist">
-            <span>New to GroundTruth?</span>
+            <span>New here?</span>
             <Link
               href="/signup"
               className="text-moss-bright hover:underline font-medium"
             >
-              Register your organization →
+              Create an account →
             </Link>
           </div>
         </motion.div>

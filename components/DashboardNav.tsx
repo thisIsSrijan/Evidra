@@ -11,6 +11,7 @@ import {
   ReportsIcon,
   LogoutIcon,
 } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 interface DashboardNavProps {
   user: {
@@ -36,18 +37,11 @@ export function DashboardNav({ user }: DashboardNavProps) {
       <aside className="hidden lg:flex fixed inset-y-0 left-0 z-30 w-64 flex-col justify-between bg-ink-soft border-r border-mist/15 select-none">
         {/* Brand identity header */}
         <div className="p-6">
-          <Link href="/dashboard" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-moss/30 border border-moss-bright/40 flex items-center justify-center text-moss-bright">
-              <span className="font-display font-bold text-base leading-none">E</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display text-lg text-bone font-semibold tracking-tight">
-                GroundTruth
-              </span>
-              <span className="text-[10px] uppercase font-sans tracking-widest text-mist">
-                By Evidra
-              </span>
-            </div>
+          <Link href="/dashboard" className="flex flex-col gap-1.5 group">
+            <Logo size={28} hideWordmarkOnMobile={false} />
+            <span className="text-[10px] uppercase font-sans tracking-widest text-mist/60 pl-0.5">
+              by HouseOfStellar
+            </span>
           </Link>
 
           {/* Org tag */}

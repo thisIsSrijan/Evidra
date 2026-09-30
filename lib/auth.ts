@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET || "evidra-groundtruth-dev-secret-super-safe-key-12345",
+  secret: process.env.NEXTAUTH_SECRET || "evidra-dev-secret-super-safe-key-12345",
 };
 
 export default authOptions;

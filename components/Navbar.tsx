@@ -1,41 +1,64 @@
 "use client";
 
 import React from "react";
-import { ShieldCheckIcon } from "./Icons";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { Logo } from "./Logo";
+import { MagneticButton } from "./MagneticButton";
 
 export function Navbar() {
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-mist/10 bg-ink/85 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Brand identity */}
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-moss/30 border border-moss-bright/40 flex items-center justify-center text-moss-bright">
-            <span className="font-display font-bold text-lg leading-none">E</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-display text-lg tracking-tight text-bone font-semibold leading-tight">
-              GroundTruth
-            </span>
-            <span className="text-[10px] uppercase font-sans tracking-widest text-mist">
-              By Evidra
-            </span>
-          </div>
+    <header className="sticky top-0 z-40 w-full border-b border-mist/10 bg-ink/90 backdrop-blur-md transition-colors select-none">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        {/* Brand identity on left */}
+        <div className="flex items-center gap-3 shrink-0">
+          <Logo size={30} asLink href="/" hideWordmarkOnMobile={true} />
+          <span className="hidden md:inline-block text-[10px] uppercase font-sans tracking-widest text-mist/60 pl-2.5 border-l border-mist/20">
+            by HouseOfStellar
+          </span>
         </div>
 
-        {/* Verification status badge & action */}
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full border border-mist/20 bg-ink-soft text-xs text-mist">
-            <span className="w-1.5 h-1.5 rounded-full bg-clay animate-pulse" />
-            <span>Provenance Network Active</span>
-          </div>
+        {/* Center / Ambient status indicator (hidden on smaller screens) */}
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full border border-mist/15 bg-ink-soft text-[11px] text-mist font-mono">
+          <span className="w-1.5 h-1.5 rounded-full bg-clay animate-pulse" />
+          <span>Provenance Chain Active</span>
+        </div>
 
-          <a
-            href="#demo"
-            className="inline-flex items-center gap-1.5 text-xs text-bone/90 hover:text-bone px-3 py-1.5 rounded-md border border-mist/20 hover:border-mist/50 transition-colors"
-          >
-            <ShieldCheckIcon size={14} className="text-clay" />
-            <span>Verify Assets</span>
-          </a>
+        {/* Right side navigation & CTAs */}
+        <div className="flex items-center gap-3 sm:gap-5 shrink-0">
+          {isAuthenticated ? (
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:inline-block text-xs font-mono text-mist truncate max-w-[140px]">
+                {session?.user?.name || session?.user?.email}
+              </span>
+              <MagneticButton
+                variant="primary"
+                href="/dashboard"
+                className="!py-2 !px-4 text-xs font-medium"
+              >
+                Dashboard →
+              </MagneticButton>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 sm:gap-4">
+              <Link
+                href="/login"
+                className="text-xs sm:text-sm font-sans font-medium text-mist hover:text-bone transition-colors px-1 py-1"
+              >
+                Log in
+              </Link>
+              <MagneticButton
+                variant="primary"
+                href="/signup"
+                className="!py-2 !px-4 text-xs font-medium shadow-md"
+              >
+                Get started
+              </MagneticButton>
+            </div>
+          )}
         </div>
       </div>
     </header>

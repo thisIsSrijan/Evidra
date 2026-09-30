@@ -1,7 +1,7 @@
 import { Transition } from "framer-motion";
 
 /**
- * Evidra GroundTruth Motion House Rules:
+ * Evidra Motion House Rules:
  * - Custom cubic-bezier easing [0.22, 1, 0.36, 1] everywhere, never default ease.
  * - Respect prefers-reduced-motion and disable non-essential motion for that setting.
  */

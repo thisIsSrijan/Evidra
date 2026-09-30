@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
 import { BRAND_EASING } from "@/lib/motion";
 import { LeafIcon } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -68,14 +69,9 @@ export default function SignupPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
         {/* Brand header */}
         <div className="text-left mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-            <div className="w-8 h-8 rounded-lg bg-moss/30 border border-moss-bright/40 flex items-center justify-center text-moss-bright">
-              <span className="font-display font-bold text-base leading-none">E</span>
-            </div>
-            <span className="font-display text-xl text-bone tracking-tight font-semibold">
-              GroundTruth
-            </span>
-          </Link>
+          <div className="mb-4">
+            <Logo size={32} asLink href="/" hideWordmarkOnMobile={false} />
+          </div>
 
           <h1 className="font-display text-3xl sm:text-4xl text-bone font-normal tracking-tight">
             Register your organization
@@ -195,12 +191,12 @@ export default function SignupPage() {
 
           {/* Bottom link */}
           <div className="mt-8 pt-6 border-t border-mist/10 flex items-center justify-between text-xs font-sans text-mist">
-            <span>Already registered?</span>
+            <span>Already have an account?</span>
             <Link
               href="/login"
               className="text-moss-bright hover:underline font-medium"
             >
-              Sign in to console →
+              Log in →
             </Link>
           </div>
         </motion.div>

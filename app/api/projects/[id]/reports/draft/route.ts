@@ -82,7 +82,7 @@ export async function POST(
       provenanceFingerprint: a.provenanceHash ? `Verified (#${a.provenanceHash.slice(0, 8)})` : "Unindexed",
     }));
 
-    const systemPrompt = `You are a senior environmental intelligence and impact reporting specialist for Evidra / GroundTruth.
+    const systemPrompt = `You are a senior environmental intelligence and impact reporting specialist for Evidra.
 Write a factual, donor-ready impact story narrative based strictly on the verified field evidence provided.
 
 CRITICAL RULES FOR NGO IMPACT REPORTING:

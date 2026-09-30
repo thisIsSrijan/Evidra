@@ -7,8 +7,8 @@ import { useParams } from "next/navigation";
 import {
   ShieldCheckIcon,
   SatellitePinIcon,
-  LeafIcon,
 } from "@/components/Icons";
+import { Logo } from "@/components/Logo";
 
 interface VerifiedEvidenceRecord {
   _id: string;
@@ -105,8 +105,9 @@ export default function PublicReportPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-ink text-bone font-sans flex items-center justify-center p-6">
-        <div className="max-w-md w-full space-y-4 text-center">
-          <div className="w-10 h-10 mx-auto rounded-full border-2 border-mist/20 border-t-clay animate-spin" />
+        <div className="max-w-md w-full space-y-5 text-center flex flex-col items-center">
+          <Logo size={36} hideWordmarkOnMobile={false} />
+          <div className="w-8 h-8 rounded-full border-2 border-mist/20 border-t-clay animate-spin" />
           <p className="font-mono text-xs text-mist tracking-wider uppercase">
             Loading Verified Impact Report &amp; Evidence Strip…
           </p>
@@ -119,6 +120,9 @@ export default function PublicReportPage() {
     return (
       <div className="min-h-screen bg-ink text-bone font-sans flex items-center justify-center p-6">
         <div className="max-w-md w-full p-8 rounded-2xl bg-ink-soft border border-mist/20 text-center space-y-4">
+          <div className="mb-2">
+            <Logo size={32} asLink href="/" hideWordmarkOnMobile={false} />
+          </div>
           <div className="w-12 h-12 mx-auto rounded-full bg-clay/10 border border-clay/30 flex items-center justify-center text-clay">
             <ShieldCheckIcon size={24} />
           </div>
@@ -148,17 +152,7 @@ export default function PublicReportPage() {
       <header className="border-b border-mist/10 bg-ink/80 backdrop-blur-md sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="flex items-center gap-2 group transition-opacity hover:opacity-80"
-            >
-              <div className="w-7 h-7 rounded-lg bg-moss/20 border border-moss/40 flex items-center justify-center text-moss-bright">
-                <LeafIcon size={16} />
-              </div>
-              <span className="font-display text-lg tracking-tight text-bone">
-                Evidra
-              </span>
-            </Link>
+            <Logo size={28} asLink href="/" hideWordmarkOnMobile={false} />
             <span className="text-mist/40 text-xs">/</span>
             <span className="font-mono text-xs text-mist uppercase tracking-widest hidden sm:inline">
               Verified Impact Story
@@ -392,7 +386,7 @@ export default function PublicReportPage() {
             <ShieldCheckIcon size={20} />
           </div>
           <h3 className="font-display text-xl text-bone">
-            Evidra GroundTruth Verification Seal
+            Evidra Verification Seal
           </h3>
           <p className="font-sans text-xs text-mist max-w-md mx-auto leading-relaxed">
             This impact report was authored from tamper-evident media assets. Independent auditors can review each source photo, camera EXIF coordinates, and SHA-256 custody fingerprints via the links above.

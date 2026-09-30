@@ -17,9 +17,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Evidra | GroundTruth",
+  title: "Evidra | Environmental Intelligence & Provenance Platform",
   description:
-    "AI media intelligence platform turning field photos and videos into authentic evidence and donor-ready impact reports.",
+    "Evidra turns raw field evidence into provable donor trust through cryptographic media provenance, spatial auto-pairing, and AI impact reporting.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({

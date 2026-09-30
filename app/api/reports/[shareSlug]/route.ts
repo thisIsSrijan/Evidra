@@ -47,7 +47,9 @@ export async function GET(
     }
 
     // Format verified evidence records
-    const verifiedAssets = (report.assetIds || []).map((asset: IAsset) => ({
+    const verifiedAssets = (report.assetIds || [])
+      .filter((asset: IAsset) => asset && asset._id)
+      .map((asset: IAsset) => ({
       _id: asset._id.toString(),
       cloudinaryPublicId: asset.cloudinaryPublicId,
       cloudinaryVersion: asset.cloudinaryVersion,

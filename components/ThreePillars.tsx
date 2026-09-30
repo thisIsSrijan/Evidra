@@ -82,7 +82,7 @@ export function ThreePillars() {
             Core Architecture
           </span>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-bone leading-tight tracking-tight mb-4">
-            The Three Pillars of GroundTruth
+            The Three Pillars of Evidra
           </h2>
           <p className="font-sans text-mist text-base sm:text-lg leading-relaxed">
             Every feature in Evidra serves one core mission: turning fragmented field media into unassailable, donor-ready evidence.
