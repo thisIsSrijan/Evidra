@@ -72,6 +72,36 @@ export default function LoginPage() {
             </div>
           )}
 
+          {/* Judge & Demo Credentials Callout */}
+          <div className="mb-6 p-4 rounded-xl bg-ink border border-moss/30 shadow-inner">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-moss-bright font-medium flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-clay animate-pulse" />
+                Judge &amp; Demo Credentials
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail("wangari@greenbelt.org");
+                  setPassword("password123");
+                }}
+                className="text-[11px] font-mono text-clay hover:underline focus:outline-none cursor-pointer"
+              >
+                Auto-fill ⚡
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+              <div className="p-2 rounded bg-ink-soft border border-mist/10 text-mist">
+                <span className="text-mist/60 block text-[10px] uppercase">Email</span>
+                <span className="text-bone select-all font-medium">wangari@greenbelt.org</span>
+              </div>
+              <div className="p-2 rounded bg-ink-soft border border-mist/10 text-mist">
+                <span className="text-mist/60 block text-[10px] uppercase">Password</span>
+                <span className="text-bone select-all font-medium">password123</span>
+              </div>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
